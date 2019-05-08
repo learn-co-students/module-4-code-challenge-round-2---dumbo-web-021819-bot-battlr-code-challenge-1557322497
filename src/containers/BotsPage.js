@@ -3,15 +3,18 @@ import React from "react";
 import BotCollection from "./BotCollection";
 import YourBotArmy from "./YourBotArmy";
 import BotSpecs from "../components/BotSpecs";
+import BotFilter from "./BotFilter";
 
 class BotsPage extends React.Component {
-  
+
 
   state = {
     bots:[],
     botsClicked:[],
     clicked: false,
-    botClicked:{}
+    botsFilter:[],
+    botClicked:{},
+    searchBot: ""
   }
 
   componentDidMount(){
@@ -19,7 +22,8 @@ class BotsPage extends React.Component {
     .then( response => response.json())
     .then( bots => {
     this.setState({
-      bots: bots
+      bots: bots,
+      botsFilter: bots
     })
   })
   }
@@ -49,11 +53,37 @@ class BotsPage extends React.Component {
     })
   }
 
+  handleFilter = (e) => {
+    let copyArray = [...this.state.bots];
+    this.setState({
+      searchBot : e.target.value
+    })
+    let word = this.state.searchBot;
+
+    if (this.state.searchBot === "") {
+      this.setState({
+        botsFilter: copyArray
+      })
+    } else {
+
+      const newArray = [...this.state.bots].filter( bot => {
+        return bot.name.toLowerCase().includes(word) || bot.name.includes(word)
+      })
+      this.setState({
+        botsFilter: newArray
+      })
+    }
+    // console.log(word);
+  }
+
   render() {
     return (
       <div>
         <YourBotArmy bots={this.state.botsClicked} />
-        {this.state.clicked ? <BotSpecs bot={this.state.botClicked} handleClickSpecs={this.handleClickSpecs} handleGoBack={this.handleGoBack} /> : <BotCollection bots={this.state.bots} handleClick={this.handleClick} />}
+        <BotFilter searchBot={this.state.searchBot} handleFilter={this.handleFilter} />
+        <br />
+        <br />
+        {this.state.clicked ? <BotSpecs bot={this.state.botClicked} handleClickSpecs={this.handleClickSpecs} handleGoBack={this.handleGoBack} /> : <BotCollection bots={this.state.botsFilter} handleClick={this.handleClick} />}
       </div>
     );
   }
