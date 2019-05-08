@@ -1,12 +1,51 @@
 import React from "react";
+import BotCollection from "../containers/BotCollection"
+import YourBotArmy from "./YourBotArmy";
 
 class BotsPage extends React.Component {
-  //start here with your code for step one
+state={
+  allBots:[], 
+  armyBots:[]
+}
+
+componentDidMount(){
+  fetch("https://bot-battler-api.herokuapp.com/api/v1/bots")
+  .then(res => res.json())
+  .then(allBots => {
+    this.setState({
+      allBots: allBots
+    })
+  })
+}
+
+handleAddToArmy = (selectedBot) => {
+  if( !this.state.armyBots.includes(selectedBot)){
+     this.setState({
+    armyBots:[...this.state.armyBots, selectedBot]
+  })
+  }
+}
+
+handleRemoveFromArmy = (selectedBot) => {
+  let newArmy = this.state.armyBots.filter(bot =>{
+    return selectedBot !== bot
+  })
+  this.setState({
+    armyBots: newArmy
+  })
+}
+
+
 
   render() {
     return (
       <div>
-        {/* put your components here */}
+        <YourBotArmy armyBots={this.state.armyBots}
+        handleRemoveFromArmy ={this.handleRemoveFromArmy}/>
+        <BotCollection allBots={this.state.allBots} 
+        handleAddToArmy={this.handleAddToArmy}
+        />
+        
       </div>
     );
   }
