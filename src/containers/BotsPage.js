@@ -5,7 +5,8 @@ import YourBotArmy from "./YourBotArmy";
 class BotsPage extends React.Component {
 state={
   allBots:[], 
-  armyBots:[]
+  armyBots:[], 
+  selectedBot: []
 }
 
 componentDidMount(){
@@ -26,6 +27,7 @@ handleAddToArmy = (selectedBot) => {
   }
 }
 
+
 handleRemoveFromArmy = (selectedBot) => {
   let newArmy = this.state.armyBots.filter(bot =>{
     return selectedBot !== bot
@@ -35,15 +37,24 @@ handleRemoveFromArmy = (selectedBot) => {
   })
 }
 
+handleViewSpec = (selectedBot) => {
+  console.log(selectedBot)
+  this.setState({
+    selectedBot: selectedBot
+  })  
+}
 
 
   render() {
     return (
       <div>
         <YourBotArmy armyBots={this.state.armyBots}
-        handleRemoveFromArmy ={this.handleRemoveFromArmy}/>
+        handleRemoveFromArmy ={this.handleRemoveFromArmy}
+         />
         <BotCollection allBots={this.state.allBots} 
         handleAddToArmy={this.handleAddToArmy}
+        handleViewSpec={this.handleViewSpec}
+        selectedBot={this.state.selectedBot}
         />
         
       </div>
