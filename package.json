@@ -10,5 +10,8 @@
   },
   "scripts": {
     "start": "react-scripts start"
+  },
+  "devDependencies": {
+    "react-router-dom": "^5.0.0"
   }
 }

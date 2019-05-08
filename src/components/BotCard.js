@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from 'react-router-dom'
 
 const BotCard = props => {
 
@@ -20,39 +21,41 @@ const BotCard = props => {
 
   return (
     <div className="ui column">
-      <div
-        className="ui card"
-        key={props.id}
-        onClick={() => { props.handleClick(props) }}
-      >
-        <div className="image">
-          <img alt="oh no!" src={props.avatar_url} />
-        </div>
-        <div className="content">
-          <div className="header">
-            {props.name} {botType}
+      <Link to={`/show-bot/${props.id}`}>
+        <div
+          className="ui card"
+          key={props.id}
+          
+        >
+          <div className="image">
+            <img alt="oh no!" src={props.avatar_url} />
           </div>
+          <div className="content">
+            <div className="header">
+              {props.name} {botType}
+            </div>
 
-          <div className="meta text-wrap">
-            <small>{props.catchphrase}</small>
+            <div className="meta text-wrap">
+              <small>{props.catchphrase}</small>
+            </div>
+          </div>
+          <div className="extra content">
+            <span>
+              <i className="icon heartbeat" />
+              {props.health}
+            </span>
+
+            <span>
+              <i className="icon lightning" />
+              {props.damage}
+            </span>
+            <span>
+              <i className="icon shield" />
+              {props.armor}
+            </span>
           </div>
         </div>
-        <div className="extra content">
-          <span>
-            <i className="icon heartbeat" />
-            {props.health}
-          </span>
-
-          <span>
-            <i className="icon lightning" />
-            {props.damage}
-          </span>
-          <span>
-            <i className="icon shield" />
-            {props.armor}
-          </span>
-        </div>
-      </div>
+      </Link>
     </div>
   );
 
